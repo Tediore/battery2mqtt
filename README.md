@@ -47,11 +47,7 @@ services:
 | `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string.) |
 
 # Monitored conditions
-You can specify only those conditions that you'd like to track. The default is to track `alarm, capacity, capacity_level, present, status, and voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this format:
-
-```
-alarm,capacity,capacity_level,present,status,voltage_now
-```
+You can specify only those conditions that you'd like to track. The default is to track `alarm, capacity, capacity_level, present, status, and voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this format: `alarm,capacity,capacity_level,present,status,voltage_now`
 
 # Example Home Assistant configuration
 ```yaml
