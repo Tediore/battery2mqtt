@@ -11,31 +11,45 @@ MQTT_QOS = int(os.getenv('MQTT_QOS', 1))
 MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'server')
 INTERVAL = int(os.getenv('INTERVAL', 60))
 MONITORED_CONDITIONS = os.environ.get('MONITORED_CONDITIONS','alarm,capacity,capacity_level,present,status,voltage_now')
+BATTERY_HEALTH = os.getenv('BATTERY_HEALTH', 1)
 
 client = mqtt.Client("battery2mqtt")
 client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
 
 monitored_conditions = MONITORED_CONDITIONS.split(',')
 
-path = "/sys/class/power_supply"
+path = "/sys/class/power_supply/"
 
 dirs = os.listdir(path)
 
 payload = {}
+health_calc = {}
 
 while True:
     for dir in dirs:
         for name in monitored_conditions:
             try:
-                with open(path + '/' + dir + '/' + name, 'r') as file:
-                    if name in ['alarm', 'capacity', 'present']:
+                with open(path + dir + '/' + name, 'r') as file:
+                    if name in ['alarm', 'capacity', 'cycle_count', 'online', 'present']:
                         payload[name] = int(file.read().replace('\n',''))
-                    elif 'voltage' in name:
+                    elif name.startswith('voltage') or name.startswith('energy'):
                         payload[name] = round(float(file.read().replace('\n','')) / 1000000,2)
+                    elif name.startswith('power'):
+                        payload[name] = round(float(file.read().replace('\n','')) / 1000,2)
                     else:
                         payload[name] = file.read().replace('\n','')
             except:
                 payload[name] = "condition not found"
+
+        if BATTERY_HEALTH == '1':
+            try:
+                for name in ['energy_full_design', 'energy_full']:
+                    with open(path + dir + '/' + name, 'r') as file:
+                        health_calc[name] = int(file.read().replace('\n',''))
+                json.dumps(health_calc)
+                payload['battery_health'] = round((health_calc['energy_full'] / health_calc['energy_full_design']) * 100,2)
+            except:
+                pass
 
     client.connect(MQTT_HOST)
     client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
