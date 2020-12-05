@@ -32,10 +32,8 @@ while True:
                 with open(path + dir + '/' + name, 'r') as file:
                     if name in ['alarm', 'capacity', 'cycle_count', 'online', 'present']:
                         payload[name] = int(file.read().replace('\n',''))
-                    elif name.startswith('voltage') or name.startswith('energy'):
+                    elif name.startswith('voltage') or name.startswith('energy') or name.startswith('power'):
                         payload[name] = round(float(file.read().replace('\n','')) / 1000000,2)
-                    elif name.startswith('power'):
-                        payload[name] = round(float(file.read().replace('\n','')) / 1000,2)
                     else:
                         payload[name] = file.read().replace('\n','')
             except:
