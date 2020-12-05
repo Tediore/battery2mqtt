@@ -9,7 +9,7 @@ I thought of this project when I switched to using my old laptop as my Home Assi
 # Instructions
 
 **Option 1: Pull from Docker Hub**
-`docker pull tediore/battery2mqtt:latest`
+`docker pull tediore/battery2mqtt:latest` (https://hub.docker.com/r/tediore/battery2mqtt)
 
 **Option 2: Manual build**
 1. Clone repo: `git clone https://github.com/Tediore/battery2mqtt`
