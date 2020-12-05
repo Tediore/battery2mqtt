@@ -7,6 +7,11 @@ I thought of this project when I switched to using my old laptop as my Home Assi
 `battery2mqtt` can monitor current battery percentage, charging status, etc. for any batteries present at `/sys/class/power_supply`. The MQTT topic format is `battery2mqtt/$TOPIC/$NAME` where `$TOPIC` is the topic you define and `$NAME` is the name of each battery. For example, if `/sys/class/power_supply/BAT0` is present in your system and you choose `server` to be the topic, the full topic will be `battery2mqtt/server/BAT0`.
 
 # Instructions
+
+**Option 1: Pull from Docker Hub**
+`docker pull tediore/battery2mqtt:latest`
+
+**Option 2: Manual build**
 1. Clone repo: `git clone https://github.com/Tediore/battery2mqtt`
 2. Enter directory: `cd battery2mqtt`
 3. Build image: `docker build . -t battery2mqtt`
