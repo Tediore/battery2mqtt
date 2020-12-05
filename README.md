@@ -52,7 +52,7 @@ services:
 | `MQTT_TOPIC` | `server` | The topic to send the payload to. |
 | `MQTT_QOS` | `1` | The MQTT QoS level. |
 | `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
-| `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string.) |
+| `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string). |
 | `BATTERY_HEALTH` | `1` | Set to 1 to enable battery health percentage calculation or 0 to disable. |
 | `TIME_REMAINING` | `1` | Set to 1 to enable time remaining estimate (in hours) or 0 to disable. |
 | `SHOW_UNITS` | `1` | Set to 1 to show power units in the MQTT payload or 0 to disable. |
@@ -73,9 +73,9 @@ Similiarly, an estimate of time remaining on battery (in hours) is calculated by
 sensor:
 - platform: mqtt
   name: Server battery
-  state_topic: &battery_topic "battery2mqtt/server/BAT0"
+  state_topic: &server_battery_topic "battery2mqtt/server/BAT0"
   value_template: "{{ value_json.capacity }}"
   unit_of_measurement: '%'
   icon: 'mdi:battery'
-  json_attributes_topic: *battery_topic
+  json_attributes_topic: *server_battery_topic
 ```
