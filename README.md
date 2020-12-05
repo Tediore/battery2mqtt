@@ -1,7 +1,7 @@
 # battery2mqtt
 *Push information about batteries in your system to MQTT*
 
-I thought of this project when I switched to using my old laptop as my Home Assistant server. I wanted to track its battery level in Home Assistant to use in automations. I'm very new to Python, so I'm sure there's room for improvement here--I'd love to hear any suggestions (just be gentle, please).
+I thought of this project when I switched to using my old laptop as my Home Assistant server. I wanted to track its battery level in Home Assistant to use in automations. I'm very new to Python, so I'm sure there's room for improvement here.
 
 # Summary
 `battery2mqtt` can monitor current battery percentage, charging status, etc. for any batteries present at `/sys/class/power_supply`. The MQTT topic format is `battery2mqtt/$TOPIC/$NAME` where `$TOPIC` is the topic you define and `$NAME` is the name of each battery. For example, if `/sys/class/power_supply/BAT0` is present in your system and you choose `server` to be the topic, the full topic will be `battery2mqtt/server/BAT0`.
