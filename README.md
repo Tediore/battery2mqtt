@@ -34,6 +34,7 @@ services:
     - MQTT_QOS=1
     - INTERVAL=60
     - MONITORED_CONDITIONS=status,capacity
+    - BATTERY_HEALTH=1
     volumes:
     - /sys/class/power_supply:/sys/class/power_supply:ro
     restart: unless-stopped
@@ -50,6 +51,7 @@ services:
 | `MQTT_QOS` | `1` | The MQTT QoS level. |
 | `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
 | `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string.) |
+| `BATTERY_HEALTH` | 1 | Set to 1 to enable battery health percentage calculation or 0 to disable. |
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `alarm, capacity, capacity_level, present, status, and voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this format:
@@ -57,6 +59,8 @@ You can specify only those conditions that you'd like to track. The default is t
 ```
 alarm,capacity,capacity_level,present,status,voltage_now
 ```
+# Battery health calculation
+The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`.
 
 # Example Home Assistant configuration
 ```yaml
