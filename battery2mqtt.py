@@ -12,6 +12,7 @@ MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'server')
 INTERVAL = int(os.getenv('INTERVAL', 60))
 MONITORED_CONDITIONS = os.environ.get('MONITORED_CONDITIONS','alarm,capacity,capacity_level,present,status,voltage_now')
 BATTERY_HEALTH = os.getenv('BATTERY_HEALTH', 1)
+TIME_REMAINING = os.getenv('TIME_REMAINING', 1)
 
 client = mqtt.Client("battery2mqtt")
 client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
@@ -24,6 +25,7 @@ dirs = os.listdir(path)
 
 payload = {}
 health_calc = {}
+time_remaining = {}
 
 while True:
     for dir in dirs:
@@ -44,8 +46,16 @@ while True:
                 for name in ['energy_full_design', 'energy_full']:
                     with open(path + dir + '/' + name, 'r') as file:
                         health_calc[name] = int(file.read().replace('\n',''))
-                json.dumps(health_calc)
                 payload['battery_health'] = round((health_calc['energy_full'] / health_calc['energy_full_design']) * 100,2)
+            except:
+                pass
+        
+        if TIME_REMAINING == '1':
+            try:
+                for name in ['energy_now', 'power_now']:
+                    with open(path + dir + '/' + name, 'r') as file:
+                        time_remaining[name] = int(file.read().replace('\n',''))
+                payload['time_remaining'] = round((time_remaining['energy_now'] / time_remaining['power_now']),2)
             except:
                 pass
 

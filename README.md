@@ -35,6 +35,7 @@ services:
     - INTERVAL=60
     - MONITORED_CONDITIONS=status,capacity
     - BATTERY_HEALTH=1
+    - TIME_REMAINING=1
     volumes:
     - /sys/class/power_supply:/sys/class/power_supply:ro
     restart: unless-stopped
@@ -59,8 +60,10 @@ You can specify only those conditions that you'd like to track. The default is t
 ```
 alarm,capacity,capacity_level,present,status,voltage_now
 ```
-# Battery health calculation
-The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`.
+
+# Battery health and time remaining calculations
+The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`. 
+Similiarly, an estimate of time remaining on battery (in hours) is calculated by dividing `energy_now` by `power_now`. This can be disabled by setting `TIME_REMAINING` to `0` in your `docker-compose.yaml`.
 
 # Example Home Assistant configuration
 ```yaml
