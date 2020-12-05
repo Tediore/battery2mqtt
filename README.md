@@ -76,6 +76,6 @@ sensor:
   state_topic: &server_battery_topic "battery2mqtt/server/BAT0"
   value_template: "{{ value_json.capacity }}"
   unit_of_measurement: '%'
-  icon: 'mdi:battery'
+  device_class: battery
   json_attributes_topic: *server_battery_topic
 ```
