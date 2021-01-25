@@ -53,6 +53,7 @@ while True:
                 payload[name] = "condition not found"
 
         if BATTERY_HEALTH == '1':
+            unit = ' %' if SHOW_UNITS == '1' else ''
             try:
                 for name in ['energy_full_design', 'energy_full']:
                     with open(path + dir + '/' + name, 'r') as file:
