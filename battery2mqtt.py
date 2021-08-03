@@ -53,6 +53,7 @@ while True:
                 payload[name] = "condition not found"
 
         if BATTERY_HEALTH == '1':
+            unit = ' %' if SHOW_UNITS == '1' else ''
             try:
                 for name in ['energy_full_design', 'energy_full']:
                     with open(path + dir + '/' + name, 'r') as file:
@@ -77,7 +78,10 @@ while True:
             except:
                 pass
 
-    client.connect(MQTT_HOST)
-    client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
+    try:
+        client.connect(MQTT_HOST)
+        client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
+    except:
+        print('Message send failure.')
 
     sleep(INTERVAL)
