@@ -25,6 +25,7 @@ path = "/sys/class/power_supply/"
 dirs = os.listdir(path)
 
 payload = {}
+last_payload = {}
 health_calc = {}
 time_remaining = {}
 
@@ -78,10 +79,14 @@ while True:
             except:
                 pass
 
-    try:
-        client.connect(MQTT_HOST)
-        client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
-    except:
-        print('Message send failure.')
+    if payload != last_payload:
+        try:
+            client.connect(MQTT_HOST)
+            client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
+            last_payload = payload
+        except:
+            print('Message send failed.')
+    else:
+        pass
 
     sleep(INTERVAL)
