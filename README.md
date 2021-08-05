@@ -49,7 +49,7 @@ services:
 | `MQTT_PORT` | `1883` | The port the MQTT broker is bound to. |
 | `MQTT_USER` | `None` | The user to send to the MQTT broker. |
 | `MQTT_PASSWORD` | `None` | The password to send to the MQTT broker. |
-| `MQTT_TOPIC` | `server` | The topic to send the payload to. |
+| `MQTT_TOPIC` | `server` | The topic prefix to send the payload to. |
 | `MQTT_QOS` | `1` | The MQTT QoS level. |
 | `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
 | `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string). |
