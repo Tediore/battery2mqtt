@@ -81,7 +81,6 @@ while True:
     try:
         client.connect(MQTT_HOST)
         client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
-        last_payload = payload
     except:
         print('Message send failed.')
 
