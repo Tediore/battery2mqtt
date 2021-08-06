@@ -76,7 +76,7 @@ A summary of these conditions is below.
 | Battery health | (See next section) | % |
 | Time remaining | (See next section) | Hr |
 
-* Batteries lose capacity with each charge cycle. *Energy full* shows the actual current full capacity of the battery due to wear; *Energy full design* shows the capacity the battery was designed to hold when factory fresh.
+* Batteries lose capacity with each charge cycle. *Energy full* shows the actual full capacity of the battery due to wear; *Energy full design* shows the capacity the battery was able to hold when factory fresh.
 
 # Battery health and time remaining calculations
 The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`. 
