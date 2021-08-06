@@ -63,6 +63,20 @@ You can specify only those conditions that you'd like to track. The default is t
 ```
 status,capacity,energy_now,energy_full,energy_full_design,power_now,voltage_now
 ```
+A summary of these conditions is below.
+| Condition | Description | Unit |
+|-----------|-------------|------|
+| Status | Battery status (charging, discharging, full) | None |
+| Capacity | Current battery percentage | % |
+| Energy now | Current battery capacity | Wh (watt-hours) |
+| Energy full | Battery capacity when full | Wh |
+| Energy full design | Original battery capacity when full* | Wh |
+| Power now | Current power consumption | W |
+| Voltage now | Current battery voltage | V |
+| Battery health | (See next section) | % |
+| Time remaining | (See next section) | Hr |
+
+* Batteries lose capacity with each charge cycle. *Energy full* shows the actual current full capacity of the battery due to wear; *Energy full design* shows the capacity the battery was designed to hold when factory fresh.
 
 # Battery health and time remaining calculations
 The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`. 
