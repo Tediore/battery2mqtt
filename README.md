@@ -95,3 +95,8 @@ sensor:
   json_attributes_topic: *server_battery_topic
   device_class: battery
 ```
+
+# TODO:
+1. Add proper logging
+2. ???
+3. Profit
