@@ -37,6 +37,7 @@ services:
     - BATTERY_HEALTH=1
     - TIME_REMAINING=1
     - SHOW_UNITS=1
+    - AC_ADAPTER=1
     volumes:
     - /sys/class/power_supply:/sys/class/power_supply:ro
     restart: unless-stopped
@@ -53,9 +54,10 @@ services:
 | `MQTT_QOS` | `1` | The MQTT QoS level. |
 | `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
 | `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string). |
-| `BATTERY_HEALTH` | `1` | Set to 1 to enable battery health percentage calculation or 0 to disable. |
-| `TIME_REMAINING` | `1` | Set to 1 to enable time remaining estimate (in hours) or 0 to disable. |
-| `SHOW_UNITS` | `1` | Set to 1 to show power units in the MQTT payload or 0 to disable. |
+| `BATTERY_HEALTH` | `1` | Set to 1 or leave blank to enable battery health percentage calculation or 0 to disable. |
+| `TIME_REMAINING` | `1` | Set to 1 or leave blank to enable time remaining estimate (in hours) or 0 to disable. |
+| `SHOW_UNITS` | `1` | Set to 1 or leave blank to show power units in the MQTT payload or 0 to disable. |
+| `AC_ADAPTER` | `0` | Set to 1 to show AC adapter status. |
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `status, capacity, energy_now, energy_full, energy_full_design, power_now, voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this comma-separated format:
