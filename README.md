@@ -75,14 +75,15 @@ A summary of these conditions is below.
 | Energy full design | Original battery capacity when full* | Wh |
 | Power now | Current power consumption | W |
 | Voltage now | Current battery voltage | V |
-| Battery health | (See next section) | % |
-| Time remaining | (See next section) | Hr |
 
 \* Batteries lose capacity with each charge cycle. *Energy full* shows the actual full capacity of the battery due to wear; *Energy full design* shows the capacity the battery was able to hold when factory fresh.
 
 # Battery health and time remaining calculations
 The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`. 
 Similiarly, an estimate of time remaining on battery (in hours) is calculated by dividing `energy_now` by `power_now`. This can be disabled by setting `TIME_REMAINING` to `0` in your `docker-compose.yaml`.
+
+# AC adapter monitoring
+You can monitor the status of the AC adapter (online or offline) by setting `AC_ADAPTER` to `1`. This is disabled by default.
 
 # Example Home Assistant configuration
 ```yaml
