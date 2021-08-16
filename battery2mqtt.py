@@ -15,7 +15,7 @@ MONITORED_CONDITIONS = os.environ.get('MONITORED_CONDITIONS','status,capacity,en
 SHOW_UNITS = int(os.getenv('SHOW_UNITS', 1))
 BATTERY_HEALTH = int(os.getenv('BATTERY_HEALTH', 1))
 TIME_REMAINING = int(os.getenv('TIME_REMAINING', 1))
-AC_ADAPTER = int(os.getenv('AC_ADAPTER', 1))
+AC_ADAPTER = int(os.getenv('AC_ADAPTER', 0))
 
 client = mqtt.Client("battery2mqtt")
 client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
