@@ -32,11 +32,11 @@ time_remaining = {}
 
 while True:
     for dir in dirs:
-        if AC_ADAPTER == 1:
+        if AC_ADAPTER:
             if dir.startswith('AC'):
                 try:
                     with open(path + dir + '/online', 'r') as file:
-                        payload['ac_adapter'] = 'online' if int(file.read()) == 1 else 'offline'
+                        payload['ac_adapter'] = 'online' if int(file.read()) else 'offline'
                 except:
                     pass
 
@@ -47,13 +47,13 @@ while True:
                         payload[name] = int(file.read().replace('\n',''))
                     elif name.startswith('voltage') or name.startswith('energy') or name.startswith('power'):
                         if name.startswith('voltage'):
-                            unit = ' V' if SHOW_UNITS == 1 else ''
+                            unit = ' V' if SHOW_UNITS else ''
                         elif name.startswith('energy'):
-                            unit = ' Wh' if SHOW_UNITS == 1 else ''
+                            unit = ' Wh' if SHOW_UNITS else ''
                         else:
-                            unit = ' W' if SHOW_UNITS == 1 else ''
+                            unit = ' W' if SHOW_UNITS else ''
 
-                        if SHOW_UNITS == 1:
+                        if SHOW_UNITS:
                             payload[name] = str(round(float(file.read().replace('\n','')) / 1000000,2)) + unit
                         else:
                             payload[name] = round(float(file.read().replace('\n','')) / 1000000,2)
@@ -62,26 +62,26 @@ while True:
             except:
                 payload[name] = "condition not found"
 
-        if BATTERY_HEALTH == 1:
-            unit = ' %' if SHOW_UNITS == 1 else ''
+        if BATTERY_HEALTH:
+            unit = ' %' if SHOW_UNITS else ''
             try:
                 for name in ['energy_full_design', 'energy_full']:
                     with open(path + dir + '/' + name, 'r') as file:
                         health_calc[name] = int(file.read().replace('\n',''))
-                if SHOW_UNITS == 1:
+                if SHOW_UNITS:
                     payload['battery_health'] = str(round((health_calc['energy_full'] / health_calc['energy_full_design']) * 100,2)) + unit
                 else:
                     payload['battery_health'] = round((health_calc['energy_full'] / health_calc['energy_full_design']) * 100,2)
             except:
                 pass
         
-        if TIME_REMAINING == 1:
-            unit = ' h' if SHOW_UNITS == 1 else ''
+        if TIME_REMAINING:
+            unit = ' h' if SHOW_UNITS else ''
             try:
                 for name in ['energy_now', 'power_now']:
                     with open(path + dir + '/' + name, 'r') as file:
                         time_remaining[name] = int(file.read().replace('\n',''))
-                if SHOW_UNITS == 1:
+                if SHOW_UNITS:
                     payload['time_remaining'] = str(round((time_remaining['energy_now'] / time_remaining['power_now']),2) if round((time_remaining['energy_now'] / time_remaining['power_now']),2) < 24 else '> 24') + unit
                 else:
                     payload['time_remaining'] = round((time_remaining['energy_now'] / time_remaining['power_now']),2) if round((time_remaining['energy_now'] / time_remaining['power_now']),2) < 24 else '> 24'
