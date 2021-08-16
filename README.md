@@ -96,7 +96,7 @@ sensor:
   device_class: battery
 ```
 
-# TODO:
+# TODO
 1. Add proper logging
 2. Add Home Assistant MQTT autodiscovery?
 3. ???
