@@ -98,5 +98,6 @@ sensor:
 
 # TODO:
 1. Add proper logging
-2. ???
-3. Profit
+2. Add Home Assistant MQTT autodiscovery?
+3. ???
+4. Profit
