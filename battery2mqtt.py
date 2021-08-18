@@ -28,6 +28,7 @@ path = "/sys/class/power_supply/"
 dirs = os.listdir(path)
 
 payload = {}
+prev_payload = {}
 health_calc = {}
 time_remaining = {}
 mqtt_connected = False
@@ -62,6 +63,8 @@ def check_conditions():
 
 def get_info():
     # Get requested conditions and generate/send MQTT payload
+    global payload
+    global prev_payload
     for dir in dirs:
         if AC_ADAPTER:
             if dir.startswith('AC'):
@@ -120,7 +123,10 @@ def get_info():
                 pass
 
     try:
-        client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), MQTT_QOS, False)
+        if prev_payload != payload:
+            # only send MQTT payload if information has changed from previous payload
+            client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), MQTT_QOS, False)
+            prev_payload = payload
         if LOG_LEVEL == 'DEBUG':
             logging.debug('Sending MQTT payload: ' + str(payload))
     except Exception as e:
