@@ -58,6 +58,7 @@ services:
 | `TIME_REMAINING` | `1` | Enable/disable time remaining estimate (in hours). Set to 0 to disable. |
 | `SHOW_UNITS` | `1` | Enable/disable power units in the MQTT payload. Set to 0 to disable. |
 | `AC_ADAPTER` | `0` | Enable/disable AC adapter status. Set to 1 to enable. |
+| `LOG_LEVEL` | `info` | Change log level. Valid options are `debug`, `info`, `warning`, and `error`. |
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `status, capacity, energy_now, energy_full, energy_full_design, power_now, voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this comma-separated format:
