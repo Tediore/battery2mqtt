@@ -26,6 +26,8 @@ if LOG_LEVEL.lower() not in ['debug', 'info', 'warning', 'error']:
 else:
     logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s %(levelname)s: %(message)s')
 
+client = mqtt.Client(MQTT_CLIENT)
+
 monitored_conditions = MONITORED_CONDITIONS.split(',')
 path = "/sys/class/power_supply/"
 dirs = os.listdir(path)
@@ -39,7 +41,6 @@ def mqtt_connect():
     # Connect to MQTT broker, set LWT, and start loop
     global mqtt_connected
     try:
-        client = mqtt.Client(MQTT_CLIENT)
         client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
         client.will_set("battery2mqtt/" + MQTT_TOPIC + '/status', 'offline', 0, True)
         client.connect(MQTT_HOST, MQTT_PORT)
