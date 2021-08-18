@@ -64,7 +64,7 @@ services:
 | `LOG_LEVEL` | `info` | Set minimum log level. Valid options are `debug`, `info`, `warning`, and `error`. |
 
 # MQTT client
-If you plan on using `battery2mqtt` on more than one machine, it is very important that you use a **different client name for each instance**; otherwise you _will_ experience issues with LWT.
+If you plan on using `battery2mqtt` on more than one machine, it is very important that you use a **different client name for each instance**; otherwise, you _will_ experience issues with LWT.
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `status, capacity, energy_now, energy_full, energy_full_design, power_now, voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this comma-separated format:
