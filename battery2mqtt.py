@@ -1,8 +1,9 @@
 import os
+import sys
 import json
-from sys import int_info
 from time import sleep
 import paho.mqtt.client as mqtt
+import logging
 
 MQTT_HOST = os.getenv('MQTT_HOST')
 MQTT_PORT = int(os.getenv('MQTT_PORT', 1883))
@@ -16,21 +17,51 @@ SHOW_UNITS = int(os.getenv('SHOW_UNITS', 1))
 BATTERY_HEALTH = int(os.getenv('BATTERY_HEALTH', 1))
 TIME_REMAINING = int(os.getenv('TIME_REMAINING', 1))
 AC_ADAPTER = int(os.getenv('AC_ADAPTER', 0))
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
+
+logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s %(levelname)s: %(message)s')
 
 client = mqtt.Client("battery2mqtt")
-client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
 
 monitored_conditions = MONITORED_CONDITIONS.split(',')
-
 path = "/sys/class/power_supply/"
-
 dirs = os.listdir(path)
 
 payload = {}
 health_calc = {}
 time_remaining = {}
+mqtt_connected = False
 
-while True:
+def mqtt_connect():
+    # Connect to MQTT broker, set LWT, and start loop
+    global mqtt_connected
+    try:
+        client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+        client.will_set("battery2mqtt/" + MQTT_TOPIC + '/status', 'offline', 0, True)
+        client.connect(MQTT_HOST, MQTT_PORT)
+        client.loop_start()
+        client.publish("battery2mqtt/" + MQTT_TOPIC + '/status', 'online', 0, True)
+        logging.info('Connected to MQTT broker.')
+        mqtt_connected = True
+    except Exception as e:
+        logging.error(f'Unable to connect to MQTT broker: {e}')
+        sys.exit()
+
+def check_conditions():
+    # Check that the conditions the user requested are present on the system
+    for dir in dirs:
+        if not dir.startswith('AC'):
+            for name in monitored_conditions:
+                try:
+                    with open(path + dir + '/' + name, 'r') as file:
+                        file.read()
+                    if LOG_LEVEL == 'DEBUG':
+                        logging.debug(f'Condition "{name}" found.')
+                except:
+                    logging.warning(f'Condition "{name}" not found.')
+
+def get_info():
+    # Get requested conditions and generate/send MQTT payload
     for dir in dirs:
         if AC_ADAPTER:
             if dir.startswith('AC'):
@@ -60,7 +91,7 @@ while True:
                     else:
                         payload[name] = file.read().replace('\n','')
             except:
-                payload[name] = "condition not found"
+                pass
 
         if BATTERY_HEALTH:
             unit = ' %' if SHOW_UNITS else ''
@@ -89,9 +120,15 @@ while True:
                 pass
 
     try:
-        client.connect(MQTT_HOST)
-        client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), qos=MQTT_QOS, retain=False)
-    except:
-        print('Message send failed.')
+        client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), MQTT_QOS, False)
+        if LOG_LEVEL == 'DEBUG':
+            logging.debug('Sending MQTT payload: ' + str(payload))
+    except Exception as e:
+        logging.error(f'Message send failed: {e}')
 
+check_conditions()
+mqtt_connect()
+
+while mqtt_connected:
+    get_info()
     sleep(INTERVAL)
