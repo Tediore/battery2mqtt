@@ -8,15 +8,15 @@ I thought of this project when I switched to using my old laptop as my Home Assi
 
 # Instructions
 
-**Option 1: Pull from Docker Hub**
-`docker pull tediore/battery2mqtt:latest` (https://hub.docker.com/r/tediore/battery2mqtt)
-
-**Option 2: Manual build**
+**Option 1: Manual build**
 1. Clone repo: `git clone https://github.com/Tediore/battery2mqtt`
 2. Enter directory: `cd battery2mqtt`
 3. Build image: `docker build . -t battery2mqtt`
 4. Customize `docker-compose.yaml` to fit your needs
 5. `docker-compose up -d`
+
+**Option 2: Docker Hub*
+1. Follow steps 4 and 5 above using `tediore/battery2mqtt:latest` as the image.
 
 Example compose file with all possible environmental variables listed:
 ```yaml
