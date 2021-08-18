@@ -33,7 +33,7 @@ services:
     - MQTT_TOPIC=server
     - MQTT_QOS=1
     - INTERVAL=60
-    - MONITORED_CONDITIONS=status,capacity
+    - MONITORED_CONDITIONS=status,capacity,energy_now,energy_full,energy_full_design,power_now,voltage_now
     - BATTERY_HEALTH=1
     - TIME_REMAINING=1
     - SHOW_UNITS=1
