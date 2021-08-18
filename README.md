@@ -54,10 +54,10 @@ services:
 | `MQTT_QOS` | `1` | The MQTT QoS level. |
 | `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
 | `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string). |
-| `BATTERY_HEALTH` | `1` | Set to 1 or leave blank to enable battery health percentage calculation or 0 to disable. |
-| `TIME_REMAINING` | `1` | Set to 1 or leave blank to enable time remaining estimate (in hours) or 0 to disable. |
-| `SHOW_UNITS` | `1` | Set to 1 or leave blank to show power units in the MQTT payload or 0 to disable. |
-| `AC_ADAPTER` | `0` | Set to 1 to show AC adapter status. |
+| `BATTERY_HEALTH` | `1` | Enable/disable battery health percentage calculation. Set to 0 to disable. |
+| `TIME_REMAINING` | `1` | Enable/disable time remaining estimate (in hours). Set to 0 to disable. |
+| `SHOW_UNITS` | `1` | Enable/disable power units in the MQTT payload. Set to 0 to disable. |
+| `AC_ADAPTER` | `0` | Enable/disable AC adapter status. Set to 1 to enable. |
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `status, capacity, energy_now, energy_full, energy_full_design, power_now, voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this comma-separated format:
@@ -75,14 +75,15 @@ A summary of these conditions is below.
 | Energy full design | Original battery capacity when full* | Wh |
 | Power now | Current power consumption | W |
 | Voltage now | Current battery voltage | V |
-| Battery health | (See next section) | % |
-| Time remaining | (See next section) | Hr |
 
 \* Batteries lose capacity with each charge cycle. *Energy full* shows the actual full capacity of the battery due to wear; *Energy full design* shows the capacity the battery was able to hold when factory fresh.
 
 # Battery health and time remaining calculations
 The default is to also provide a battery health percentage calculation by dividing `energy_full` by `energy_full_design`. This can be disabled by setting `BATTERY_HEALTH` to `0` in your `docker-compose.yaml`. 
 Similiarly, an estimate of time remaining on battery (in hours) is calculated by dividing `energy_now` by `power_now`. This can be disabled by setting `TIME_REMAINING` to `0` in your `docker-compose.yaml`.
+
+# AC adapter monitoring
+You can monitor the status of the AC adapter (online or offline) by setting `AC_ADAPTER` to `1`. This is disabled by default.
 
 # Example Home Assistant configuration
 ```yaml
@@ -96,8 +97,9 @@ sensor:
   device_class: battery
 ```
 
-# TODO:
-1. Add proper logging
-2. Add Home Assistant MQTT autodiscovery?
-3. ???
-4. Profit
+# TODO
+1. Implement LWT
+2. Add proper logging
+3. Add Home Assistant MQTT autodiscovery?
+4. ???
+5. Profit
