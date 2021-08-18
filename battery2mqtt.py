@@ -19,7 +19,11 @@ TIME_REMAINING = int(os.getenv('TIME_REMAINING', 1))
 AC_ADAPTER = int(os.getenv('AC_ADAPTER', 0))
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
 
-logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s %(levelname)s: %(message)s')
+if LOG_LEVEL.lower() not in ['debug', 'info', 'warning', 'error']:
+    logging.basicConfig(level='INFO', format='%(asctime)s %(levelname)s: %(message)s')
+    logging.warning(f'Selected log level "{LOG_LEVEL}" is not valid; using default')
+else:
+    logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s %(levelname)s: %(message)s')
 
 client = mqtt.Client("battery2mqtt")
 
