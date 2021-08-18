@@ -9,6 +9,7 @@ MQTT_HOST = os.getenv('MQTT_HOST')
 MQTT_PORT = int(os.getenv('MQTT_PORT', 1883))
 MQTT_USER = os.getenv('MQTT_USER')
 MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+MQTT_CLIENT = os.getenv('MQTT_CLIENT', 'battery2mqtt')
 MQTT_QOS = int(os.getenv('MQTT_QOS', 1))
 MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'server')
 INTERVAL = int(os.getenv('INTERVAL', 60))
@@ -25,14 +26,13 @@ if LOG_LEVEL.lower() not in ['debug', 'info', 'warning', 'error']:
 else:
     logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s %(levelname)s: %(message)s')
 
-client = mqtt.Client("battery2mqtt")
+client = mqtt.Client(MQTT_CLIENT)
 
 monitored_conditions = MONITORED_CONDITIONS.split(',')
 path = "/sys/class/power_supply/"
 dirs = os.listdir(path)
 
 payload = {}
-prev_payload = {}
 health_calc = {}
 time_remaining = {}
 mqtt_connected = False
@@ -126,15 +126,13 @@ def get_info():
             except:
                 pass
 
-    try:
-        if prev_payload != payload:
-            # only send MQTT payload if information has changed from previous payload
-            client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), MQTT_QOS, False)
-            prev_payload = payload
-        if LOG_LEVEL == 'DEBUG':
-            logging.debug('Sending MQTT payload: ' + str(payload))
-    except Exception as e:
-        logging.error(f'Message send failed: {e}')
+        try:
+            if not dir.startswith('AC'):
+                client.publish("battery2mqtt/" + MQTT_TOPIC + '/' + dir, json.dumps(payload), MQTT_QOS, False)
+                if LOG_LEVEL == 'DEBUG':
+                    logging.debug('Sending MQTT payload: ' + str(payload))
+        except Exception as e:
+            logging.error(f'Message send failed: {e}')
 
 check_conditions()
 mqtt_connect()
