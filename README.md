@@ -38,6 +38,7 @@ services:
     - TIME_REMAINING=1
     - SHOW_UNITS=1
     - AC_ADAPTER=1
+    - LOG_LEVEL=info
     volumes:
     - /sys/class/power_supply:/sys/class/power_supply:ro
     restart: unless-stopped
@@ -99,8 +100,8 @@ sensor:
 ```
 
 # TODO
-1. Implement LWT
-2. Add proper logging
+~~1. Implement LWT~~
+~~2. Add proper logging~~
 3. Add Home Assistant MQTT autodiscovery?
 4. ???
 5. Profit
