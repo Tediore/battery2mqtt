@@ -15,7 +15,7 @@ I thought of this project when I switched to using my old laptop as my Home Assi
 4. Customize `docker-compose.yaml` to fit your needs
 5. `docker-compose up -d`
 
-**Option 2: Docker Hub*
+**Option 2: Docker Hub**
 1. Follow steps 4 and 5 above using `tediore/battery2mqtt:latest` as the image.
 
 Example compose file with all possible environmental variables listed:
