@@ -100,8 +100,8 @@ sensor:
 ```
 
 # TODO
-~~1. Implement LWT~~
-~~2. Add proper logging~~
+1. ~~Implement LWT~~
+2. ~~Add proper logging~~
 3. Add Home Assistant MQTT autodiscovery?
 4. ???
 5. Profit
