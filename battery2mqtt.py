@@ -132,6 +132,10 @@ def get_info():
                     logging.debug('Sending MQTT payload: ' + str(payload))
         except Exception as e:
             logging.error(f'Message send failed: {e}')
+    try:
+        client.publish("battery2mqtt/" + MQTT_TOPIC + '/status', 'online', 0, True)
+    except Exception as e:
+        logging.error(f'Message send failed: {e}')
 
 check_conditions()
 mqtt_connect()
