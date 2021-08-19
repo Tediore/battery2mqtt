@@ -46,22 +46,22 @@ services:
 ```
 
 # Configuration
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MQTT_HOST` | `None` | IP address or hostname of the MQTT broker to connect to. |
-| `MQTT_PORT` | `1883` | The port the MQTT broker is bound to. |
-| `MQTT_USER` | `None` | The user to send to the MQTT broker. |
-| `MQTT_PASSWORD` | `None` | The password to send to the MQTT broker. |
-| `MQTT_CLIENT` | `battery2mqtt` | The client name for the MQTT connection. IMPORTANT: SEE BELOW |
-| `MQTT_TOPIC` | `server` | The topic prefix to send the payload to. |
-| `MQTT_QOS` | `1` | The MQTT QoS level. |
-| `INTERVAL` | `60` | How often (in seconds) battery2mqtt polls for battery info. |
-| `MONITORED_CONDITIONS` | (See below) | Battery properties to send to MQTT (must be a comma-separated string). |
-| `BATTERY_HEALTH` | `1` | Enable/disable battery health percentage calculation. Set to 0 to disable. |
-| `TIME_REMAINING` | `1` | Enable/disable time remaining estimate (in hours). Set to 0 to disable. |
-| `SHOW_UNITS` | `1` | Enable/disable power units in the MQTT payload. Set to 0 to disable. |
-| `AC_ADAPTER` | `0` | Enable/disable AC adapter status. Set to 1 to enable. |
-| `LOG_LEVEL` | `info` | Set minimum log level. Valid options are `debug`, `info`, `warning`, and `error`. |
+| Variable | Default | Required | Description |
+|----------|---------|----------|-------------|
+| `MQTT_HOST` | `None` | True | IP address or hostname of the MQTT broker to connect to. |
+| `MQTT_PORT` | `1883` | False | The port the MQTT broker is bound to. |
+| `MQTT_USER` | `None` | False | The user to send to the MQTT broker. |
+| `MQTT_PASSWORD` | `None` | False | The password to send to the MQTT broker. |
+| `MQTT_CLIENT` | `battery2mqtt` | True | The client name for the MQTT connection. IMPORTANT: SEE BELOW |
+| `MQTT_TOPIC` | `server` | True | The topic prefix to send the payload to. |
+| `MQTT_QOS` | `1` | False | The MQTT QoS level. |
+| `INTERVAL` | `60` | False | How often (in seconds) battery2mqtt polls for battery info. |
+| `MONITORED_CONDITIONS` | (See below) | True | Battery properties to send to MQTT (must be a comma-separated string). |
+| `BATTERY_HEALTH` | `1` | False | Enable/disable battery health percentage calculation. Set to 0 to disable. |
+| `TIME_REMAINING` | `1` | False | Enable/disable time remaining estimate (in hours). Set to 0 to disable. |
+| `SHOW_UNITS` | `1` | False | Enable/disable power units in the MQTT payload. Set to 0 to disable. |
+| `AC_ADAPTER` | `0` | False | Enable/disable AC adapter status. Set to 1 to enable. |
+| `LOG_LEVEL` | `info` | False | Set minimum log level. Valid options are `debug`, `info`, `warning`, and `error`. |
 
 # MQTT client
 If you plan on using `battery2mqtt` on more than one machine, it is very important that you use a **different client name for each instance**; otherwise, you _will_ experience issues with LWT.
