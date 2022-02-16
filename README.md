@@ -18,7 +18,7 @@ I thought of this project when I switched to using my old laptop as my Home Assi
 **Option 2: Docker Hub**
 1. Follow steps 4 and 5 above using `tediore/battery2mqtt:latest` as the image.
 
-Example compose file with all possible environmental variables listed:
+Example docker-compose.yaml with all possible environmental variables listed:
 ```yaml
 version: '3'
 services:
@@ -42,6 +42,26 @@ services:
     volumes:
     - /sys/class/power_supply:/sys/class/power_supply:ro
     restart: unless-stopped
+```
+
+Example `docker run` command with all possible environmental variables:
+```
+docker run --name battery2mqtt \
+-e MQTT_HOST=10.0.0.2 \
+-e MQTT_PORT=1883 \
+-e MQTT_USER=user \
+-e MQTT_PASSWORD=password \
+-e MQTT_TOPIC=server \
+-e MQTT_QOS=1 \
+-e INTERVAL=60 \
+-e MONITORED_CONDITIONS=status,capacity,energy_now,energy_full,energy_full_design,power_now,voltage_now \
+-e BATTERY_HEALTH=1 \
+-e TIME_REMAINING=1 \
+-e SHOW_UNITS=1 \
+-e AC_ADAPTER=1 \
+-e LOG_LEVEL=info \
+-v /sys/class/power_supply:/sys/class/power_supply:ro \
+tediore/battery2mqtt:latest
 ```
 
 # Configuration
