@@ -30,7 +30,6 @@ services:
     - MQTT_PORT=1883
     - MQTT_USER=user
     - MQTT_PASSWORD=password
-    - MQTT_CLIENT=serverbatt
     - MQTT_TOPIC=server
     - MQTT_QOS=1
     - INTERVAL=60
@@ -52,7 +51,6 @@ services:
 | `MQTT_PORT` | `1883` | False | The port the MQTT broker is bound to. |
 | `MQTT_USER` | `None` | False | The user to send to the MQTT broker. |
 | `MQTT_PASSWORD` | `None` | False | The password to send to the MQTT broker. |
-| `MQTT_CLIENT` | `battery2mqtt` | True | The client name for the MQTT connection. IMPORTANT: SEE BELOW |
 | `MQTT_TOPIC` | `server` | True | The topic prefix to send the payload to. |
 | `MQTT_QOS` | `1` | False | The MQTT QoS level. |
 | `INTERVAL` | `60` | False | How often (in seconds) battery2mqtt polls for battery info. |
@@ -63,8 +61,8 @@ services:
 | `AC_ADAPTER` | `0` | False | Enable/disable AC adapter status. Set to 1 to enable. |
 | `LOG_LEVEL` | `info` | False | Set minimum log level. Valid options are `debug`, `info`, `warning`, and `error`. |
 
-# MQTT client
-If you plan on using `battery2mqtt` on more than one machine, it is very important that you use a **different client name for each instance**; otherwise, you _will_ experience issues with LWT.
+# Multiple instances
+If you plan on using `battery2mqtt` on more than one machine, it is very important that you use a **different MQTT_TOPIC for each instance**; otherwise, you _will_ experience issues with LWT.
 
 # Monitored conditions
 You can specify only those conditions that you'd like to track. The default is to track `status, capacity, energy_now, energy_full, energy_full_design, power_now, voltage_now`. You can add more conditions (found at `/sys/class/power_supply/$NAME`) or choose only those you want to track. The variable in your `docker-compose.yaml` must follow this comma-separated format:
